@@ -42,8 +42,11 @@ with open(currentWorkingDir + '\input.txt') as f:
 def try_grab_and_save_input(year, d):
     fileName = get_day_path(d, 'input.txt')
 
-    if os.path.exists(fileName):
-        print("Found puzzle input in file for day '{d}', no need to grab from url.".format(d=d))
+    with open(fileName, 'r') as f:
+            fileContent = f.read()
+
+    if os.path.exists(fileName) and fileContent != '':
+            print("Found puzzle input in file for day '{d}', no need to grab from url.".format(d=d))
     else:
         uri = "{baseUrl}/{year}/day/{d}/input".format(baseUrl=baseUrl,year=year, d=d)
 

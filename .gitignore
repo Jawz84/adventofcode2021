@@ -1,3 +1,5 @@
 .vscode
 Cookie
 */input.txt
+bin/**
+obj/**

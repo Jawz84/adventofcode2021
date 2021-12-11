@@ -1,3 +1,7 @@
+###
+# Run pip-sync to install dependencies (if pip-sync is missing, run pip install pip-tools first)
+# pip-sync --upgrade --requirement requirements.txt
+#
 # Browse to adventofcode.com, log in using your preferred auth method.
 # Open your browsers development tools, and find the Cookie named 'session'.
 # For Chrome / Edge that is: F12 > Application > Storage > Cookies > https://adventofcode.com > session
@@ -12,9 +16,12 @@ import shutil
 
 currentWorkingDir = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
-
-with open(currentWorkingDir + '\\Cookie') as f:
-    sessionCookie = f.read()
+try: 
+    with open(currentWorkingDir + '\\Cookie') as f:
+        sessionCookie = f.read()
+except FileNotFoundError:
+    print("No cookie file found. Please open your browser's developer tools and find the Cookie named 'session', copy its contents to a file named Cookie and store it in the root of the repo.")
+    exit()
 
 if sessionCookie == '':
     print("Please save the value of the 'session' cookie from your browser and store it in a file named 'Cookie' in this directory. More info in the comments of this script.")

@@ -18,7 +18,7 @@ currentWorkingDir = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
 try: 
     with open(currentWorkingDir + '\\Cookie') as f:
-        sessionCookie = f.read()
+        sessionCookie = f.readline().strip()
 except FileNotFoundError:
     print("No cookie file found. Please open your browser's developer tools and find the Cookie named 'session', copy its contents to a file named Cookie and store it in the root of the repo.")
     exit()
@@ -56,11 +56,17 @@ def try_grab_and_save_input(year, d):
 
         try:
             input = requests.get(uri, cookies={"session": sessionCookie}).text
-            with open(fileName, 'w') as f:
-                f.write(input)
             print("Grabbed puzzle input for day '{d}' from url.".format(d=d))
-        except:
+        except Exception as e:
             print("Could not get puzzle input for day '{d}' from url.".format(d=d))
+            print(e)
+        else:
+            try:
+                with open(fileName, 'w') as f:
+                    f.write(input)
+                print("Saved puzzle input for day '{d}' to file.".format(d=d))
+            except:
+                print("Could not save puzzle input for day '{d}' to file.".format(d=d))
 
 def get_day_path(d, fileName):
     path = '\\'.join([currentWorkingDir, 'day{d}'.format(d=d)])
